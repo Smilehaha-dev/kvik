@@ -1,0 +1,67 @@
+
+{% if product != blank %}
+                    <link rel="stylesheet" href="{{ 'component-product-sticky-cart.css' | asset_url }}" media="print" onload="this.media='all'">
+                        <animate-sticky class="sticky-cart-wrapper hidden">
+                          <span class="sticky-cart-block" {{ sticky_cart.shopify_attributes }}></span>
+                          <product-sticky-cart id="sticky-cart-{{ section.id }}">
+                            <div class="sticky-cart page-width">
+                              <div class="sticky-cart__content">
+                                <div class="sticky-cart__content-image media-wrapper media-wrapper--small small-hide medium-hide">
+                                  {%- assign block_image = featured_media | default: first_image -%}
+                                  {%- if block_image != null -%}
+                                    <lazy-image>
+                                      <img srcset="{{ block_image.preview_image | image_url: width: 70 }} 1x, {{ block_image.preview_image | image_url: width: 140 }} 2x"
+                                        src="{{ block_image.preview_image | image_url: width: 70 }}"
+                                        alt="{{ block_image.preview_image.alt | escape | split: '#' | first }}"
+                                        loading="lazy"
+                                        width="70"
+                                        height="{{ 70 | divided_by: block_image.preview_image.aspect_ratio | ceil }}"
+                                      />
+                                    </lazy-image>
+                                  {%- endif -%}
+                                </div>
+                                <div class="sticky-cart__content-heading">
+                                  <h3 class="h4 small-hide medium-hide">{{ product.title | escape }}</h3>
+                                  <div class="no-js-hidden" id="price-{{ section.id }}--alt">
+                    {% comment %}   {%- render 'unit-price', product: product, use_variant: true, show_badges: true, price_class: '' -%} {% endcomment %}
+                                    <span class="fs-heading-4-base" data-price>
+                                        {{- current_variant.price | money -}}
+                                        {%- if settings.currency_code_enabled %} {{ cart.currency.iso_code }}{% endif -%}
+                                      </span>
+                    
+                                    <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+                                      <s data-compare-price>
+                                        {%- if current_variant.compare_at_price > current_variant.price -%}
+                                          {{ current_variant.compare_at_price | money -}}
+                                          {%- if settings.currency_code_enabled %} {{ cart.currency.iso_code }}{% endif %}
+                                        {%- endif -%}
+                                      </s>
+                                    {% render 'unit-price', item: current_variant %}
+                                      
+                                  </div>
+                                </div>
+                              </div>
+                              {%
+                                render 'product-form' with
+                                product: product,
+                                current_variant: current_variant,
+                                show_dynamic_checkout: block.settings.show_dynamic_checkout,
+                                custom_text_input_title: custom_text_title,
+                                is_featured_product: true
+                              %}
+                            </div>
+                          </product-sticky-cart>
+                        </animate-sticky>
+                {% endif %}
+{% schema %}
+  {
+    "name": "Sticky cart",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

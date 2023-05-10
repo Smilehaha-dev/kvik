@@ -1,0 +1,25 @@
+/* Use this file to add custom css to the theme. */
+
+
+/*---- chat ------- */
+@media screen and (max-width: 700px) {
+  #chat-button {
+    right: 5px !important;
+    bottom: 90px !important;
+  }
+}
+
+
+/*  ------sticky button --------  */
+.sticky-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+@media screen and (max-width: 700px) {
+  .sticky-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    width: 170px;
+  }
+}
